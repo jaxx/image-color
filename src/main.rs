@@ -51,11 +51,7 @@ fn process_pixels(pixels: Vec<(u32, u32, image::Rgba<u8>)>,
 
 fn get_dominant_color(color_map: &HashMap<Rgb<u8>, u64>) -> String {
     match color_map.iter().max_by_key(|&(_, &count)| count) {
-        Some((&color, _)) => rgb_to_hex(color),
+        Some((&color, _)) => format!("#{:X}{:X}{:X}", color.data[0], color.data[1], color.data[2]),
         None => String::new(),
     }
-}
-
-fn rgb_to_hex(rgb: Rgb<u8>) -> String {
-    format!("#{:X}{:X}{:X}", rgb.data[0], rgb.data[1], rgb.data[2])
 }
