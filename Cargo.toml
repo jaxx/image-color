@@ -1,0 +1,7 @@
+[package]
+name = "image-color"
+version = "0.1.0"
+authors = ["Jakko Sikkar <jakko.sikkar@ŋmail.com>"]
+
+[dependencies]
+image = "0.10.4"
