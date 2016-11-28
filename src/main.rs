@@ -26,17 +26,15 @@ fn process_image_parallel(image: &DynamicImage) -> String {
 
     let color_map: Arc<Mutex<HashMap<Rgb<u8>, u64>>> = Arc::new(Mutex::new(HashMap::new()));
 
-    {
-        for _ in 0..NTHREADS {
-            let color_map_clone = color_map.clone();
-            let pixels = image.pixels().skip(NTHREADS * 1000).take(1000).collect();
+    for _ in 0..NTHREADS {
+        let color_map_clone = color_map.clone();
+        let pixels = image.pixels().skip(NTHREADS * 1000).take(1000).collect();
 
-            thread_handles.push(spawn(move || process_pixels(pixels, color_map_clone)));
-        }
+        thread_handles.push(spawn(move || process_pixels(pixels, color_map_clone)));
+    }
 
-        for handle in thread_handles {
-            handle.join().unwrap();
-        }
+    for handle in thread_handles {
+        handle.join().unwrap();
     }
 
     let data = color_map.lock().unwrap();
